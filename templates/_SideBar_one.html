@@ -1,0 +1,43 @@
+{% macro Side_Bar_One_render() %}
+    <div class="card text-dark" style="min-width: 20rem;">
+        <img class="card-img-top alt=" Card image cap" src="{{ url_for('static', filename = 'img/index.svg') }}">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Lorem ipsum dolor amet salvia edison bulb ennui cardigan poke, hammock snackwave
+                keffiyeh fashion axe art party four dollar toast kinfolk pork belly cliche umami. XOXO authentic
+                thundercats marfa humblebrag lomo. Squid bicycle rights retro iceland. Skateboard ennui gentrify
+                gluten-free pug whatever. Hashtag readymade tbh helvetica, bespoke fixie waistcoat lo-fi shaman tousled
+                flexitarian.
+
+                Crucifix stumptown mustache marfa neutra aesthetic salvia, glossier actually intelligentsia health goth
+                art party kombucha meggings. Hot chicken occupy 8-bit four dollar toast everyday carry williamsburg woke
+                artisan chillwave next level tumeric 3 wolf moon. Cornhole echo park plaid butcher williamsburg.
+                Mumblecore occupy vinyl selvage umami tumeric bicycle rights. Affogato sartorial VHS hexagon, snackwave
+                air plant aesthetic cray.</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Cras
+            justo
+            odio</li>
+            <li class="list-group-item">Dapibus
+            ac
+            facilisis in</li>
+            <li class="list-group-item">Vestibulum
+            at
+            eros</li>
+        </ul>
+        <div class="card-body">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+        </div>
+    </div>
+
+
+    <div class="card text-white bg-dark mb-3" style="min-width: 20rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+            <h5 class="card-title">Dark card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+        </div>
+{% endmacro %}
