@@ -51,10 +51,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
 
-
-
 from views import *
-
 
 
 if __name__ == "__main__":

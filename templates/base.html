@@ -1,4 +1,6 @@
 {% import '_main_nav.html' as nav_macro %}
+{% import '_SideBar_one.html' as sidebar_macro %}
+{% import 'Masonry_columns.html' as masonry_macro %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,7 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css" />
     <title> {% block title %} {% endblock %} - OWL sync </title>
     {% endblock %}
   </head>
@@ -24,15 +25,16 @@
         #}
         {{ nav_macro.nav_render() }}
         {# NAV BAR ENDS #}
-        <div class="container">
-    <div class="row justify-content-md-center">
+        <div style="margin-top: 2%; margin-bottom: 5%" class="container">
       <div class="row">
-        <div class="col-8">
+        <div class="col-sm-9">
           {% block content %}
+              {{ masonry_macro.masonry_render() }}
           {% endblock content %}
         </div{# class="col-8 ENDS #}>
-          <div class="col-4">
+          <div class="col-sm-3">
             {% block sidebar %}
+                {{ sidebar_macro.Side_Bar_One_render() }}
               {% endblock sidebar %}
                 </div{# class="col-4 ENDS #}>
       </div{# class="row justify-content-md-center" ENDS #}>
@@ -42,8 +44,6 @@
       <div class="container-fluid">
         <nav class="navbar fixed-bottom navbar-light bg-light">
           <h6> &copy; Copyright 2008 by<a href="http://domain.invalid/"> OWL sync </a></h6>
-          </div>
-      </div>
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
       </script>

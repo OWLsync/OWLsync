@@ -1,6 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
-### Example user template template
-### Example user template
+
 
 __pycache__/
 # IntelliJ project files
@@ -12,12 +11,10 @@ gen### Dropbox template
 .dropbox
 .dropbox.attr
 .dropbox.cache
-### Example user template template
-### Example user template
+
 
 # IntelliJ project files
 gen
 /config.py
-/models.py
 /venv/
 *.pyc
