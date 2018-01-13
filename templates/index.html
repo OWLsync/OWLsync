@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='extra.css') }}">
+{{ super() }}
+<style type="text/css">
+  .important {
+    color: #336699;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<h1>CONTENT CONTENT GOES HERE</h1>
+{% endblock content %}
+{% block sidebar %}
+<h1>SIDEBAR CONTENT GOES HERE</h1>
+{# --------- ADDS EXTRA CONTENT TO THE SIDE BAR BLOCK BY USING THE SUPER() --------- #}
+{{ super() }}
+{% endblock sidebar %}
