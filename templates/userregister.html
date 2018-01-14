@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='extra.css') }}">
+    {{ super() }}
+    <style type="text/css">
+        .important {
+            color: #336699;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <form action="{{ url_for('userregister') }}" method="post">
+
+        <input id="user_first_name" type="text" name="user_first_name"/>
+
+        <input id="user_last_name" type="user_last_name" name="user_last_name"/>
+
+        <input id="posts" type="posts" name="posts"/>
+
+        {{ form.csrf_token }}
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2">Submit
+            </button>
+        </div>
+    </form>
+{% endblock content %}
+{% block sidebar %}
+    {# --------- ADDS EXTRA CONTENT TO THE SIDE BAR BLOCK BY USING THE SUPER() --------- #} {{ super() }}
+{% endblock sidebar %}

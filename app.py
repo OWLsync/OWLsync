@@ -1,72 +1,84 @@
 from flask import Flask, render_template
-from datetime import datetime
-from urllib.parse import quote_plus
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, scoped_session
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 
 from config import Configuration  # import our configuration data.
 
 app = Flask(__name__)
+
 app.config.from_object(Configuration)  # use values from our
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = True
+
 db = SQLAlchemy(app)
+
+# ____________________POSTGRES CONNECTION
+
+DB_url = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=app.config["POSTGRES_USER"],
+    pw=app.config["POSTGRES_PW"], url=app.config["POSTGRES_URL"], db=app.config["POSTGRES_DB"])
+
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_url
+
+# _________________________________________
+engine = create_engine(DB_url, convert_unicode=True)
+db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+
+Base = declarative_base()
+Base.query = db_session.query_property()
+
+session_factory = sessionmaker(bind=engine)
+Session = scoped_session(session_factory)
+# ________________________________________
 
 SECRET_KEY = app.config["SECRET_KEY"]
 DOMAIN_SERVER = app.config["DOMAIN_SERVER"]
-POSTGRES_URL = app.config["POSTGRES_URL"]
-POSTGRES_DB = app.config["POSTGRES_DB"]
-POSTGRES_USER = app.config["POSTGRES_USER"]
-POSTGRES_PW = app.config["POSTGRES_PW"]
-
-# POSTGRES CONNECTION
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,
-    pw=POSTGRES_PW, url=POSTGRES_URL, db=POSTGRES_DB)
 
 
 # DB MODELS
 class User(db.Model):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
-    user_first_name = db.Column(db.String(200), unique=False, nullable=True)
-    user_last_name = db.Column(db.String(200), unique=False, nullable=True)
-    posts = db.relationship('Post', backref='author', lazy='dynamic')  # Define relation to the Post
+    user_first_name = db.Column(db.String(35), unique=False, nullable=False)
+    user_last_name = db.Column(db.String(35), unique=False, nullable=False)
+    posts = db.Column(db.String(200), unique=False, nullable=False)
 
 
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-
-    # Define the slug field from Posts.
-    def slug(self):
-        return quote_plus(self.body)
+# xu = User.query.order_by('-id').first()
+# print(xu)
 
 
-# ADD DATA TO DB
-# user_data
-try:
-    db.create_all()
-    user_data = User()
-    user_data.user_first_name = 'Peter'
-    user_data.user_last_name = 'Some'
-    db.session.add(user_data)
+class Userform(FlaskForm):
+    user_first_name = StringField('user_first_name', validators=[DataRequired()])
+    user_last_name = StringField('user_last_name', validators=[DataRequired()])
+    posts = StringField('name', validators=[DataRequired()])
+    submit = SubmitField("Submit")
 
-    db.session.commit()  # calls flush beforehand, but we need it after the commit
-    db.session.flush()  # updates the objects of the session
-except Exception:
-    db.session.rollback()
 
-try:
-    post_data = Post()
-    post_data.body = "Hello World"
-    post_data.user_id = user_data.id
-    db.session.add(post_data)
+@app.route('/userregister', methods=('GET', 'POST'))
+def userregister():
+    form = Userform()
+    if form.validate_on_submit():
+        try:
+            db.create_all()
+            user_data = User()
+            user_data.user_first_name = form.user_first_name.data
+            user_data.user_last_name = form.user_last_name.data
+            user_data.posts = form.posts.data
+            db.session.add(user_data)
+            db.session.commit()  # calls flush beforehand, but we need it after the commit
+            db.session.flush()  # updates the objects of the session
+        except Exception as e:
+            db.session.rollback()
+            print(e)
+    return render_template('userregister.html', form=form)
 
-    db.session.commit()  # calls flush beforehand, but we need it after the commit
-    db.session.flush()  # updates the objects of the session
-except Exception:
-    db.session.rollback()
 
-print(user_data, post_data)  # id field of the User object updated after the flush
 
 
 # VIEWS
@@ -74,7 +86,7 @@ print(user_data, post_data)  # id field of the User object updated after the flu
 @app.route("/index")
 def index():
     try:
-        return render_template("index.html"), 200
+        return render_template("index.html")
     except Exception as e:
         return str(e)
 
@@ -92,4 +104,4 @@ def view_post(post_id, slug):
 
 
 if __name__ == '__main__':
-    app.run(use_reloader=False)
+    app.run(use_reloader=False, debug=True)
