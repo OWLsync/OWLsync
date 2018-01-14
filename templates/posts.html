@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for post in posts %}
+    <a href="{{ url_for('view_post', post_id=post.id, slug=post.slug() ) }}">{{ post.body | capitalize }}</a></body><br>
+
+{% endfor %}
+</body>
+</html>
