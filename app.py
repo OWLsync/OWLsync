@@ -41,7 +41,7 @@ DOMAIN_SERVER = app.config["DOMAIN_SERVER"]
 
 
 # DB MODELS
-class User(db.Model):
+class User(Base):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     user_first_name = db.Column(db.String(35), unique=False, nullable=False)
@@ -54,9 +54,9 @@ class User(db.Model):
 
 
 class Userform(FlaskForm):
-    user_first_name = StringField('user_first_name', validators=[DataRequired()])
-    user_last_name = StringField('user_last_name', validators=[DataRequired()])
-    posts = StringField('name', validators=[DataRequired()])
+    user_first_name = StringField('user_first_name', validators=[DataRequired("Please enter your first name.")])
+    user_last_name = StringField('user_last_name', validators=[DataRequired("Please enter your last name.")])
+    posts = StringField('name', validators=[DataRequired("Please enter your post.")])
     submit = SubmitField("Submit")
 
 

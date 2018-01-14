@@ -4,28 +4,67 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='extra.css') }}">
     {{ super() }}
     <style type="text/css">
-        .important {
-            color: #336699;
-        }
+        {# ---- Add Custom CSS Here ---- #}
     </style>
 {% endblock %}
 {% block content %}
     <form action="{{ url_for('userregister') }}" method="post">
-
-        <input id="user_first_name" type="text" name="user_first_name"/>
-
-        <input id="user_last_name" type="user_last_name" name="user_last_name"/>
-
-        <input id="posts" type="posts" name="posts"/>
-
+        {# ----------------  FIRST NAME FORM STARTS------------- #}
+        <div class="form-group">
+            {# ---------------- ERROR MSG FIRST NAME ------------- #}
+            {% for message in form.user_first_name.errors %}
+                <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            {# ---------- ERROR MSG FIRST NAME END ----------- #}
+            <input class="form-control form-control-lg" id="user_first_name" type="text" name="user_first_name"
+                   placeholder="First Name"/></div>
+        {# ----------------  FIRST NAME FORM ENDS ------------- #}
+        {# ----------------  LAST NAME FORM STARTS------------- #}
+        <div class="form-group">
+            {# ---------------- ERROR MSG LAST NAME ------------- #}
+            {% for message in form.user_last_name.errors %}
+                <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            {# ---------- ERROR MSG FIRST NAME END ----------- #}
+            <input class="form-control form-control-lg" id="user_last_name" type="user_last_name" name="user_last_name"
+                   placeholder="Last Name"/></div>
+        {# ----------------  LAST NAME FORM ENDS------------- #}
+        {# ----------------  POST FORM STARTS ------------- #}
+        <div class="form-group">
+            {# ---------------- ERROR MSG LAST NAME ------------- #}
+            {% for message in form.posts.errors %}
+                <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            {# ---------- ERROR MSG FIRST NAME END ----------- #}
+            <textarea class="form-control form-control-lg" id="posts" type="posts" name="posts" placeholder="Post"
+                      rows="3"/></textarea>
+        </div>
+        {# ----------------  POST FORM ENDS------------- #}
         {{ form.csrf_token }}
 
         <div class="col-auto">
-            <button type="submit" class="btn btn-primary mb-2">Submit
-            </button>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
         </div>
+
     </form>
+
 {% endblock content %}
+
 {% block sidebar %}
     {# --------- ADDS EXTRA CONTENT TO THE SIDE BAR BLOCK BY USING THE SUPER() --------- #} {{ super() }}
 {% endblock sidebar %}
