@@ -1,20 +1,23 @@
 {% extends "base.html" %}
+
 {% block title %}Index{% endblock %}
+
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='extra.css') }}">
-{{ super() }}
+    {{ super() }}
 <style type="text/css">
-  .important {
-    color: #336699;
-  }
+    .important {
+        color: #336699;
+    }
 </style>
 {% endblock %}
+
 {% block content %}
 <h1>CONTENT CONTENT GOES HERE</h1>
     <script src="https://gist.github.com/OWLsync/c11b8af416842bbd7df7059ee11585f6.js"></script>
     {{ super() }}
 {% endblock content %}
+
 {% block sidebar %}
-{# --------- ADDS EXTRA CONTENT TO THE SIDE BAR BLOCK BY USING THE SUPER() --------- #}
-{{ super() }}
+    {# --------- ADDS EXTRA CONTENT TO THE SIDE BAR BLOCK BY USING THE SUPER() --------- #} {{ super() }}
 {% endblock sidebar %}
