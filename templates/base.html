@@ -1,4 +1,4 @@
-{% import '_main_nav.html' as nav_macro %} {% import '_SideBar_one.html' as sidebar_macro %} {% import 'Masonry_columns.html' as masonry_macro %}
+{% import '_main_nav.html' as nav_macro %} {% import '_SideBar_one.html' as sidebar_macro %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +19,8 @@
 <div style="margin-top: 2%; margin-bottom: 5%" class="container">
     <div class="row">
         <div class="col-sm-9">
-            {% block content %} {{ masonry_macro.masonry_render() }} {% endblock content %}
-        </div{# class="col-8 ENDS #}>
+            {% block content %}  {% endblock content %}
+        </div{# class="col-9 ENDS #}>
         <div class=" col-sm-3 ">
             {% block sidebar %}
                 {{ sidebar_macro.Side_Bar_One_render() }}

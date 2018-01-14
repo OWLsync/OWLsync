@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from sqlalchemy import create_engine
+from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from wtforms import StringField, SubmitField
@@ -46,7 +46,7 @@ class User(Base):
     id = db.Column(db.Integer, primary_key=True)
     user_first_name = db.Column(db.String(35), unique=False, nullable=False)
     user_last_name = db.Column(db.String(35), unique=False, nullable=False)
-    posts = db.Column(db.String(200), unique=False, nullable=False)
+    posts = db.Column(db.String(2000), unique=False, nullable=False)
 
 
 # xu = User.query.order_by('-id').first()
@@ -72,6 +72,7 @@ def userregister():
             user_data.posts = form.posts.data
             db.session.add(user_data)
             db.session.commit()  # calls flush beforehand, but we need it after the commit
+            print("{0}  {1}  {2}".format(user_data.user_first_name, user_data.user_last_name, user_data.posts))
             db.session.flush()  # updates the objects of the session
         except Exception as e:
             db.session.rollback()
@@ -79,28 +80,21 @@ def userregister():
     return render_template('userregister.html', form=form)
 
 
-
-
 # VIEWS
 @app.route("/")
 @app.route("/index")
 def index():
     try:
-        return render_template("index.html")
+        Users = db.session.query(User).all()
+        return render_template("index.html", Users=Users)
     except Exception as e:
         return str(e)
 
 
 @app.route('/posts')
 def view_posts():
-    posts = Post.query.all()
-    return render_template("posts.html", posts=posts), 200
-
-
-@app.route('/post/<post_id>/<slug>')
-def view_post(post_id, slug):
-    post = Post.query.get(post_id)
-    return render_template("post.html", post=post), 200
+    Users = db.session.query(User).all()
+    return render_template("posts.html", Users=Users), 200
 
 
 if __name__ == '__main__':

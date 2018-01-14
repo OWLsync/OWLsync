@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import 'Masonry_columns.html' as masonry_macro %}
 {% block title %}Index{% endblock %}
 
 
@@ -14,6 +15,7 @@
 
 {% block content %}
 <h1>CONTENT CONTENT GOES HERE</h1>
+    {{ masonry_macro.masonry_render() }}
     <script src="https://gist.github.com/OWLsync/c11b8af416842bbd7df7059ee11585f6.js"></script>
     {{ super() }}
 {% endblock content %}
