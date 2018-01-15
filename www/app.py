@@ -1,54 +1,19 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask import render_template
 from flask_wtf import FlaskForm
 from sqlalchemy import *
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, scoped_session
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
-from config import Configuration  # import our configuration data.
+#session_factory = sessionmaker(bind=ENGINE)
+#Session = scoped_session(session_factory)
 
-APP = Flask(__name__)
-
-APP.config.from_object(Configuration)  # use values from our
-
-APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-APP.config['SQLALCHEMY_ECHO'] = True
-
-DB = SQLAlchemy(APP)
-
-# ____________________POSTGRES CONNECTION
-
-DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=APP.config["POSTGRES_USER"],
-    pw=APP.config["POSTGRES_PW"], url=APP.config["POSTGRES_URL"], db=APP.config["POSTGRES_DB"])
-
-APP.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
-
-# _________________________________________
-ENGINE = create_engine(DB_URL, convert_unicode=True)
-db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=ENGINE))
-
-BASE = declarative_base()
-BASE.query = db_session.query_property()
-
-session_factory = sessionmaker(bind=ENGINE)
-Session = scoped_session(session_factory)
-# ________________________________________
+from www import APP, DB
+from www.models import User
 
 SECRET_KEY = APP.config["SECRET_KEY"]
 DOMAIN_SERVER = APP.config["DOMAIN_SERVER"]
-
-
-# DB MODELS
-class User(BASE):
-    __tablename__ = 'user'
-    id = DB.Column(DB.Integer, primary_key=True)
-    user_first_name = DB.Column(DB.String(35), unique=False, nullable=False)
-    user_last_name = DB.Column(DB.String(35), unique=False, nullable=False)
-    posts = DB.Column(DB.String(2000), unique=False, nullable=False)
 
 
 # xu = User.query.order_by('-id').first()
@@ -61,13 +26,11 @@ class Userform(FlaskForm):
     posts = StringField('name', validators=[DataRequired("Please enter your post.")])
     submit = SubmitField("Submit")
 
-
 @APP.route('/userregister', methods=('GET', 'POST'))
 def userregister():
     form = Userform()
     if form.validate_on_submit():
         try:
-            DB.create_all()
             user_data = User()
             user_data.user_first_name = form.user_first_name.data
             user_data.user_last_name = form.user_last_name.data
@@ -99,4 +62,5 @@ def view_posts():
 
 
 if __name__ == '__main__':
+    DB.create_all()
     APP.run(use_reloader=False, debug=True)

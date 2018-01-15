@@ -1,28 +1,37 @@
+#!/usr/bin/env python3
+
 # ADD DATA TO DB
-# user_data
+
+from www import DB
+from www.models import User
+#from www.models import User, Post
+
+
+DB.create_all()
 try:
-    db.create_all()
     user_data = User()
     user_data.user_first_name = "Jo"
     user_data.user_last_name = 'Some'
-    db.session.add(user_data)
+    DB.session.add(user_data)
 
-    db.session.commit()  # calls flush beforehand, but we need it after the commit
-    db.session.flush()  # updates the objects of the session
+    DB.session.commit()  # calls flush beforehand, but we need it after the commit
+    DB.session.flush()  # updates the objects of the session
+    print(user_data)  # Print object updated after the flush
 except Exception as e:
-    db.session.rollback()
+    DB.session.rollback()
     print(e)
 
-try:
-    post_data = Post()
-    post_data.body = "Hello World"
-    post_data.user_id = user_data.id
-    db.session.add(post_data)
+# post_data
+if False:
+    try:
+        post_data = Post()
+        post_data.body = "Hello World"
+        post_data.user_id = user_data.id
+        DB.session.add(post_data)
 
-    db.session.commit()  # calls flush beforehand, but we need it after the commit
-    db.session.flush()  # updates the objects of the session
-except Exception as e:
-    db.session.rollback()
-    print(e)
-
-print(user_data, post_data)  # Print object updated after the flush
+        DB.session.commit()  # calls flush beforehand, but we need it after the commit
+        DB.session.flush()  # updates the objects of the session
+        print(post_data)  # Print object updated after the flush
+    except Exception as e:
+        DB.session.rollback()
+        print(e)
