@@ -6,6 +6,7 @@ from www import DB
 from www.models import User
 #from www.models import User, Post
 
+# Need to update Initial data import to match new models
 
 DB.create_all()
 try:
