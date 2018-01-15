@@ -14,9 +14,9 @@ try:
     user_data.user_last_name = 'Some'
     DB.session.add(user_data)
 
-    DB.session.commit()  # calls flush beforehand, but we need it after the commit
-    DB.session.flush()  # updates the objects of the session
-    print(user_data)  # Print object updated after the flush
+    DB.session.commit()
+    DB.session.flush()
+    print(user_data)
 except Exception as e:
     DB.session.rollback()
     print(e)
@@ -29,9 +29,9 @@ if False:
         post_data.user_id = user_data.id
         DB.session.add(post_data)
 
-        DB.session.commit()  # calls flush beforehand, but we need it after the commit
-        DB.session.flush()  # updates the objects of the session
-        print(post_data)  # Print object updated after the flush
+        DB.session.commit()
+        DB.session.flush()
+        print(post_data) 
     except Exception as e:
         DB.session.rollback()
         print(e)

@@ -28,9 +28,9 @@ def userregister():
             user_data.user_last_name = form.user_last_name.data
             user_data.posts = form.posts.data
             DB.session.add(user_data)
-            DB.session.commit()  # calls flush beforehand, but we need it after the commit
+            DB.session.commit()
             print("{0}  {1}  {2}".format(user_data.user_first_name, user_data.user_last_name, user_data.posts))
-            DB.session.flush()  # updates the objects of the session
+            DB.session.flush() 
         except Exception as e:
             DB.session.rollback()
             print(e)

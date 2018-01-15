@@ -7,14 +7,15 @@ from flask_sqlalchemy import SQLAlchemy
 from config import Configuration
 
 APP = Flask(__name__)
-APP.config.from_object(Configuration)  # use values from our
+APP.config.from_object(Configuration)
 APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 APP.config['SQLALCHEMY_ECHO'] = True
 
 DB = SQLAlchemy(APP)
-# ____________________POSTGRES CONNECTION
 DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=APP.config["POSTGRES_USER"],
-    pw=APP.config["POSTGRES_PW"], url=APP.config["POSTGRES_URL"], db=APP.config["POSTGRES_DB"])
+                                                                pw=APP.config["POSTGRES_PW"],
+                                                                url=APP.config["POSTGRES_URL"],
+                                                                db=APP.config["POSTGRES_DB"])
 APP.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 
 ENGINE = create_engine(DB_URL, convert_unicode=True)
