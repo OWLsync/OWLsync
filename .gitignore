@@ -20,3 +20,4 @@ ven
 virtualenv
 .vscode
 **.pyc
+/venv/
