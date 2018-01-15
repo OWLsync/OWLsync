@@ -111,7 +111,7 @@ def userregister():
 
             print("{0}".format(person_data.name))
 
-            user_data = Person()
+            user_data = User()
             user_data.username = form.username.data  # ___ USERNAME
             user_data.email = form.email.data  # ___ EMAIL
             user_data.user_join_date = form.user_join_date.data  # ___ EMAIL
@@ -120,7 +120,10 @@ def userregister():
             db.session.commit()  # calls flush beforehand, but we need it after the commit
             db.session.flush()  # updates the objects of the session
 
-            print("{0}  {1}  {2}".format(user_data.username, user_data.email, user_data.user_join_date))
+            print("{0}  {1}  {2}".format(
+                user_data.username,
+                user_data.email,
+                user_data.user_join_date))
 
         except Exception as e:
             db.session.rollback()
