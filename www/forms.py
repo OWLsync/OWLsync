@@ -3,9 +3,15 @@ from wtforms import StringField, SubmitField
 
 from wtforms.validators import DataRequired
 
+
 class Userform(FlaskForm):
-    user_first_name = StringField('user_first_name', validators=[DataRequired("Please enter your first name.")])
-    user_last_name = StringField('user_last_name', validators=[DataRequired("Please enter your last name.")])
-    posts = StringField('name', validators=[DataRequired("Please enter your post.")])
+    user_name = StringField('user_first_name', validators=[DataRequired("user_name here")])
+    email = StringField('user_last_name', validators=[DataRequired("email here")])
     submit = SubmitField("Submit")
 
+
+class Articleform(FlaskForm):
+    title = StringField('body', validators=[DataRequired("title here")])
+    body = StringField('body', validators=[DataRequired("body here")])
+    timestamp = StringField('user_last_name', validators=[DataRequired("timestamp here")])
+    submit = SubmitField("Submit")
