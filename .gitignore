@@ -15,6 +15,9 @@ gen### Dropbox template
 
 # IntelliJ project files
 gen
-/config.py
+config.py
+ven
+virtualenv
+.vscode
+**.pyc
 /venv/
-*.pyc
