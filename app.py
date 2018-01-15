@@ -22,8 +22,11 @@ db = SQLAlchemy(app)
 
 # ____________________POSTGRES CONNECTION
 
-DB_url = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=app.config["POSTGRES_USER"],
-    pw=app.config["POSTGRES_PW"], url=app.config["POSTGRES_URL"], db=app.config["POSTGRES_DB"])
+DB_url = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(
+    user=app.config["POSTGRES_USER"],
+    pw=app.config["POSTGRES_PW"],
+    url=app.config["POSTGRES_URL"],
+    db=app.config["POSTGRES_DB"])
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_url
 
@@ -76,17 +79,17 @@ class User(Base):
 
 
 # The above configuration establishes a collection of Address objects on User called Person.user
-# It also establishes a.person attribute on User which will refer to the parent Person object.
+# It also establishes a .person attribute on User which will refer to the parent Person object.
 # http://docs.sqlalchemy.org/en/latest/orm/backref.html
 
 
 # ___ FORM ___ USER ___ START ___
 
 class Userform(FlaskForm):
-    name = StringField('user_first_name', validators=[DataRequired("Please enter your first name.")])
-    username = StringField('user_last_name', validators=[DataRequired("Please enter your last name.")])
-    email = StringField('name', validators=[DataRequired("Please enter your post.")])
-    user_join_date = DateField('DatePicker', format='%Y-%m-%d')
+    name = StringField('name', validators=[DataRequired("name here.")])
+    username = StringField('username', validators=[DataRequired("username here.")])
+    email = StringField('email', validators=[DataRequired("email here")])
+    user_join_date = DateField('user_join_date', format='%Y-%m-%d')
     submit = SubmitField("Submit")
 
 
@@ -106,8 +109,8 @@ def userregister():
             person_data.name = form.name.data  # ___ NAME
 
             db.session.add(person_data)
-            db.session.commit()  # calls flush beforehand, but we need it after the commit
-            db.session.flush()  # updates the objects of the session
+            db.session.commit()  # calls flush beforehand, but we need it after the commit.
+            db.session.flush()  # updates the objects of the session.
 
             print("{0}".format(person_data.name))
 
@@ -117,8 +120,8 @@ def userregister():
             user_data.user_join_date = form.user_join_date.data  # ___ EMAIL
 
             db.session.add(user_data)
-            db.session.commit()  # calls flush beforehand, but we need it after the commit
-            db.session.flush()  # updates the objects of the session
+            db.session.commit()  # calls flush beforehand, but we need it after the commit.
+            db.session.flush()  # updates the objects of the session.
 
             print("{0}  {1}  {2}".format(
                 user_data.username,
