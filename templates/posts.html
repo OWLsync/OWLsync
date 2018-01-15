@@ -10,14 +10,16 @@
 
 {% block content %}
     <div class="card-columns">
-        {% for posts in Users %}
+        {% for i in Users %}
             <div style="display: flex;" class="card">
 
                 <img class="card-img-top" alt="Card image cap"
                      src="{{ url_for('static', filename = 'img/index.svg') }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ posts.user_first_name }}</h5>
-                    <p class="card-text">{{ posts.posts }}</p>
+                    <h5 class="card-title">{{ i.name }}</h5>
+                    <p class="card-text">{{ i.username }}</p>
+                    <p class="card-text">{{ i.email }}</p>
+                    <p class="card-text">{{ i.user_join_date }}</p>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">Last updated 3 mins ago</small>

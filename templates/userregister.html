@@ -9,10 +9,12 @@
 {% endblock %}
 {% block content %}
     <form action="{{ url_for('userregister') }}" method="post">
-        {# ----------------  FIRST NAME FORM STARTS------------- #}
+
+
+        {# ----------------  name FORM STARTS------------- #}
         <div class="form-group">
-            {# ---------------- ERROR MSG FIRST NAME ------------- #}
-            {% for message in form.user_first_name.errors %}
+            {# ---------------- ERROR MSG name ------------- #}
+            {% for message in form.name .errors %}
                 <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>{{ message }}</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -20,14 +22,16 @@
                     </button>
                 </div>
             {% endfor %}
-            {# ---------- ERROR MSG FIRST NAME END ----------- #}
-            <input class="form-control form-control-lg" id="user_first_name" type="text" name="user_first_name"
+            {# ---------- ERROR MSG name END ----------- #}
+            <input class="form-control form-control-lg" id="name " type="text" name="name "
                    placeholder="First Name"/></div>
-        {# ----------------  FIRST NAME FORM ENDS ------------- #}
-        {# ----------------  LAST NAME FORM STARTS------------- #}
+        {# ----------------  name FORM ENDS ------------- #}
+
+
+        {# ----------------  username FORM STARTS------------- #}
         <div class="form-group">
-            {# ---------------- ERROR MSG LAST NAME ------------- #}
-            {% for message in form.user_last_name.errors %}
+            {# ---------------- ERROR MSG username ------------- #}
+            {% for message in form.username.errors %}
                 <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>{{ message }}</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -35,14 +39,16 @@
                     </button>
                 </div>
             {% endfor %}
-            {# ---------- ERROR MSG FIRST NAME END ----------- #}
-            <input class="form-control form-control-lg" id="user_last_name" type="user_last_name" name="user_last_name"
+            {# ---------- ERROR MSG name END ----------- #}
+            <input class="form-control form-control-lg" id="username" type="text" name="username"
                    placeholder="Last Name"/></div>
-        {# ----------------  LAST NAME FORM ENDS------------- #}
-        {# ----------------  POST FORM STARTS ------------- #}
+        {# ----------------  username FORM ENDS------------- #}
+
+
+        {# ----------------  email FORM STARTS ------------- #}
         <div class="form-group">
-            {# ---------------- ERROR MSG LAST NAME ------------- #}
-            {% for message in form.posts.errors %}
+            {# ---------------- ERROR MSG username ------------- #}
+            {% for message in form.email.errors %}
                 <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>{{ message }}</strong>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -50,11 +56,29 @@
                     </button>
                 </div>
             {% endfor %}
-            {# ---------- ERROR MSG FIRST NAME END ----------- #}
-            <textarea class="form-control form-control-lg" id="posts" type="posts" name="posts" placeholder="Post"
+            {# ---------- ERROR MSG name END ----------- #}
+            <textarea class="form-control form-control-lg" id="email" type="email" name="email" placeholder="Post"
                       rows="3"/></textarea>
         </div>
-        {# ----------------  POST FORM ENDS------------- #}
+        {# ----------------  email FORM ENDS------------- #}
+
+
+        {# ----------------  email FORM STARTS ------------- #}
+        <div class="form-group">
+            {# ---------------- ERROR MSG username ------------- #}
+            {% for message in form.email.errors %}
+                <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            {# ---------- ERROR MSG name END ----------- #}
+            <textarea class="form-control form-control-lg" id="email" type="email" name="email" placeholder="Post"
+                      rows="3"/></textarea>
+        </div>
+        {# ----------------  email FORM ENDS------------- #}
         {{ form.csrf_token }}
 
         <div class="col-auto">
