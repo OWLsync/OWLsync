@@ -1,30 +1,10 @@
 #!/usr/bin/env python3
 
 from flask import render_template
-from flask_wtf import FlaskForm
-from sqlalchemy import *
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
-
-#session_factory = sessionmaker(bind=ENGINE)
-#Session = scoped_session(session_factory)
 
 from www import APP, DB
 from www.models import User
-
-SECRET_KEY = APP.config["SECRET_KEY"]
-DOMAIN_SERVER = APP.config["DOMAIN_SERVER"]
-
-
-# xu = User.query.order_by('-id').first()
-# print(xu)
-
-
-class Userform(FlaskForm):
-    user_first_name = StringField('user_first_name', validators=[DataRequired("Please enter your first name.")])
-    user_last_name = StringField('user_last_name', validators=[DataRequired("Please enter your last name.")])
-    posts = StringField('name', validators=[DataRequired("Please enter your post.")])
-    submit = SubmitField("Submit")
+from www.forms import Userform
 
 @APP.route('/userregister', methods=('GET', 'POST'))
 def userregister():
@@ -44,7 +24,6 @@ def userregister():
             print(e)
     return render_template('userregister.html', form=form)
 
-
 # VIEWS
 @APP.route("/")
 @APP.route("/index")
@@ -59,7 +38,6 @@ def index():
 def view_posts():
     Users = DB.session.query(User).all()
     return render_template("posts.html", Users=Users), 200
-
 
 if __name__ == '__main__':
     DB.create_all()
