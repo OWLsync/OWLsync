@@ -1,10 +1,12 @@
+from datetime import datetime
+
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, scoped_session
-from wtforms import StringField, SubmitField
+from sqlalchemy.orm import sessionmaker, scoped_session, relationship
+from wtforms import StringField, SubmitField, DateField
 from wtforms.validators import DataRequired
 
 from config import Configuration  # import our configuration data.
@@ -40,25 +42,58 @@ SECRET_KEY = app.config["SECRET_KEY"]
 DOMAIN_SERVER = app.config["DOMAIN_SERVER"]
 
 
-# DB MODELS
+#  ____________________DB MODELS_________________________
+class Person(Base):
+    __tablename__ = 'person'
+    id = db.Column(db.Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+
+    user = relationship("User", backref="person")
+
+    def __init__(self):
+        pass
+
+    def __repr__(self):
+        return '<Person: id={0.id!r}, name={0.name!r}>'.format(self)
+
+
 class User(Base):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
-    user_first_name = db.Column(db.String(35), unique=False, nullable=False)
-    user_last_name = db.Column(db.String(35), unique=False, nullable=False)
-    posts = db.Column(db.String(2000), unique=False, nullable=False)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    user_join_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    user_id = Column(Integer, ForeignKey('person.id'))
+
+    person = relationship(Person)
+
+    def __init__(self):
+        pass
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 
-# xu = User.query.order_by('-id').first()
-# print(xu)
+# The above configuration establishes a collection of Address objects on User called Person.user
+# It also establishes a.person attribute on User which will refer to the parent Person object.
+# http://docs.sqlalchemy.org/en/latest/orm/backref.html
 
+
+# ___ FORM ___ USER ___ START ___
 
 class Userform(FlaskForm):
-    user_first_name = StringField('user_first_name', validators=[DataRequired("Please enter your first name.")])
-    user_last_name = StringField('user_last_name', validators=[DataRequired("Please enter your last name.")])
-    posts = StringField('name', validators=[DataRequired("Please enter your post.")])
+    name = StringField('user_first_name', validators=[DataRequired("Please enter your first name.")])
+    username = StringField('user_last_name', validators=[DataRequired("Please enter your last name.")])
+    email = StringField('name', validators=[DataRequired("Please enter your post.")])
+    user_join_date = DateField('DatePicker', format='%Y-%m-%d')
     submit = SubmitField("Submit")
 
+
+# ___ FORM ___ USER ___ END ___
+
+
+# ___ USER ___ REGISTER ___ START ___
 
 @app.route('/userregister', methods=('GET', 'POST'))
 def userregister():
@@ -66,18 +101,34 @@ def userregister():
     if form.validate_on_submit():
         try:
             db.create_all()
-            user_data = User()
-            user_data.user_first_name = form.user_first_name.data
-            user_data.user_last_name = form.user_last_name.data
-            user_data.posts = form.posts.data
+
+            person_data = Person()
+            person_data.name = form.name.data  # ___ NAME
+
+            db.session.add(person_data)
+            db.session.commit()  # calls flush beforehand, but we need it after the commit
+            db.session.flush()  # updates the objects of the session
+
+            print("{0}".format(person_data.name))
+
+            user_data = Person()
+            user_data.username = form.username.data  # ___ USERNAME
+            user_data.email = form.email.data  # ___ EMAIL
+            user_data.user_join_date = form.user_join_date.data  # ___ EMAIL
+
             db.session.add(user_data)
             db.session.commit()  # calls flush beforehand, but we need it after the commit
-            print("{0}  {1}  {2}".format(user_data.user_first_name, user_data.user_last_name, user_data.posts))
             db.session.flush()  # updates the objects of the session
+
+            print("{0}  {1}  {2}".format(user_data.username, user_data.email, user_data.user_join_date))
+
         except Exception as e:
             db.session.rollback()
             print(e)
     return render_template('userregister.html', form=form)
+
+
+# ___ USER ___ REGISTER ___ ENDS ___
 
 
 # VIEWS
@@ -85,16 +136,16 @@ def userregister():
 @app.route("/index")
 def index():
     try:
-        Users = db.session.query(User).all()
-        return render_template("index.html", Users=Users)
+        users = db.session.query(User).all()
+        return render_template("index.html", users=users)
     except Exception as e:
         return str(e)
 
 
 @app.route('/posts')
 def view_posts():
-    Users = db.session.query(User).all()
-    return render_template("posts.html", Users=Users), 200
+    users = db.session.query(User).all()
+    return render_template("posts.html", users=users), 200
 
 
 if __name__ == '__main__':
