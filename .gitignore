@@ -17,4 +17,6 @@ gen### Dropbox template
 gen
 /config.py
 /venv/
-*.pyc
+virtualenv
+.vscode
+**.pyc
