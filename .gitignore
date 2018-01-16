@@ -21,3 +21,4 @@ virtualenv
 .vscode
 **.pyc
 /venv/
+/migrations/
