@@ -13,7 +13,7 @@ DB.session.commit()
 @APP.route("/index")
 def index():
     try:
-        users = DB.session.query(User).all().first_or_404()
+        users = DB.session.query(User).all()
         return render_template("index.html", users=users)
     except Exception as e:
         return str(e)
