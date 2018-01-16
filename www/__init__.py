@@ -4,12 +4,13 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from config import Configuration
+from config import CURRENT_CONFIG
 
 APP = Flask(__name__)
-APP.config.from_object(Configuration)
+APP.config.from_object(CURRENT_CONFIG)
 APP.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-APP.config['SQLALCHEMY_ECHO'] = True
+if CURRENT_CONFIG.DEBUG:
+    APP.config['SQLALCHEMY_ECHO'] = True
 
 DB = SQLAlchemy(APP)
 DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=APP.config["POSTGRES_USER"],
