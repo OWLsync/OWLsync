@@ -1,7 +1,7 @@
 from flask import render_template
 
-from www import APP, DB
-from www.models import User
+from www import APP
+from www.models import DB, User, Person
 from www.forms import Userform
 
 @APP.route("/")
@@ -24,15 +24,30 @@ def userregister():
     if form.validate_on_submit():
         try:
             user_data = User()
-            user_data.user_first_name = form.user_first_name.data
-            user_data.user_last_name = form.user_last_name.data
-            user_data.posts = form.posts.data
+            user_data.username = form.username.data
+            user_data.email = form.email.data
+            user_data.user_join_date = form.user_join_date.data
+
             DB.session.add(user_data)
             DB.session.commit()
-            print("{0}  {1}  {2}".format(user_data.user_first_name, user_data.user_last_name, user_data.posts))
-            DB.session.flush() 
+            DB.session.flush()
+
+            print("{0}  {1}  {2}".format(
+                user_data.username,
+                user_data.email,
+                user_data.user_join_date))
+
+            person_data = Person()
+            person_data.name = form.name.data
+            person_data.user = user_data
+
+            DB.session.add(person_data)
+            DB.session.commit()  # calls flush beforehand, but we need it after the commit.
+            DB.session.flush()  # updates the objects of the session.
+
+            print("{0}".format(person_data.name))
+
         except Exception as e:
             DB.session.rollback()
             print(e)
     return render_template('userregister.html', form=form)
-
