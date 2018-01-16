@@ -7,85 +7,37 @@
         {# ---- Add Custom CSS Here ---- #}
     </style>
 {% endblock %}
+
 {% block content %}
-    <form action="{{ url_for('userregister') }}" method="post">
 
+    {#
+Add classes to WTForm
+https://stackoverflow.com/questions/22084886/add-a-css-class-to-a-field-in-wtform
+#}
 
-        {# ----------------  name FORM STARTS------------- #}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                {# NONE #}
+            </div>
+            <div class="col-sm">
+                <form method="POST" action="/userregister">
         <div class="form-group">
-            {# ---------------- ERROR MSG name ------------- #}
-            {% for message in form.name .errors %}
-                <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endfor %}
-            {# ---------- ERROR MSG name END ----------- #}
-            <input class="form-control form-control-lg" id="name " type="text" name="name "
-                   placeholder="First Name"/></div>
-        {# ----------------  name FORM ENDS ------------- #}
+            {{ form.hidden_tag() }}
+            {{ form.username.label }} {{ form.username(class_="form-control form-control-lg") }}
+            {{ form.email.label }} {{ form.email(class_="form-control form-control-lg") }}
+            {{ form.name.label }} {{ form.name(class_="form-control form-control-lg") }}
 
-
-        {# ----------------  username FORM STARTS------------- #}
-        <div class="form-group">
-            {# ---------------- ERROR MSG username ------------- #}
-            {% for message in form.username.errors %}
-                <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endfor %}
-            {# ---------- ERROR MSG name END ----------- #}
-            <input class="form-control form-control-lg" id="username" type="text" name="username"
-                   placeholder="Last Name"/></div>
-        {# ----------------  username FORM ENDS------------- #}
-
-
-        {# ----------------  email FORM STARTS ------------- #}
-        <div class="form-group">
-            {# ---------------- ERROR MSG username ------------- #}
-            {% for message in form.email.errors %}
-                <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endfor %}
-            {# ---------- ERROR MSG name END ----------- #}
-            <textarea class="form-control form-control-lg" id="email" type="email" name="email" placeholder="Post"
-                      rows="3"/></textarea>
+            <button style="margin-top: 1em" type="submit" value="submit" class="btn btn-primary btn-lg btn-block">
+                Submit
+            </button>
         </div>
-        {# ----------------  email FORM ENDS------------- #}
-
-
-        {# ----------------  email FORM STARTS ------------- #}
-        <div class="form-group">
-            {# ---------------- ERROR MSG username ------------- #}
-            {% for message in form.email.errors %}
-                <div class="alert alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endfor %}
-            {# ---------- ERROR MSG name END ----------- #}
-            <textarea class="form-control form-control-lg" id="email" type="email" name="email" placeholder="Post"
-                      rows="3"/></textarea>
+            </div>
+            <div class="col-sm">
+                {# NONE #}
+            </div>
         </div>
-        {# ----------------  email FORM ENDS------------- #}
-        {{ form.csrf_token }}
-
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
-        </div>
-
-    </form>
+    </div>
 
 {% endblock content %}
 

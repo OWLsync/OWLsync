@@ -10,6 +10,7 @@ class Userform(FlaskForm):
     user_join_date = DateField('user_join_date', format='%Y-%m-%d')
     submit = SubmitField("Submit")
 
+
 class Articleform(FlaskForm):
     title = StringField('body', validators=[DataRequired("title here")])
     body = StringField('body', validators=[DataRequired("body here")])
