@@ -31,7 +31,6 @@ def userregister():
             DB.session.add(user_data)
             DB.session.commit()
             DB.session.flush()
-
             print("{0}  {1}  {2}".format(
                 user_data.username,
                 user_data.email,
@@ -42,9 +41,8 @@ def userregister():
             person_data.user = user_data
 
             DB.session.add(person_data)
-            DB.session.commit()  # calls flush beforehand, but we need it after the commit.
-            DB.session.flush()  # updates the objects of the session.
-
+            DB.session.commit()
+            DB.session.flush()
             print("{0}".format(person_data.name))
 
         except Exception as e:

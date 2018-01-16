@@ -13,9 +13,3 @@ APP.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{user}:{pw}@{url}
                                                                 pw=APP.config["POSTGRES_PW"],
                                                                 url=APP.config["POSTGRES_URL"],
                                                                 db=APP.config["POSTGRES_DB"])
-
-#ENGINE = create_engine(APP.config['SQLALCHEMY_DATABASE_URI'], convert_unicode=True)
-#db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=ENGINE))
-
-#BASE = declarative_base()
-#BASE.query = db_session.query_property()

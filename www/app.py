@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from sqlalchemy import *
-
 from www import APP
 from www.models import DB
 from www.views import *
